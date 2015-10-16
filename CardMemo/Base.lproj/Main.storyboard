@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="T3I-nX-62I">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <scenes>
+        <!--Main Menu View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="MainMenuViewController" customModule="CardMemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="ZKo-0w-mxa"/>
+                    <connections>
+                        <segue destination="Lns-ub-nvt" kind="push" identifier="SequeFromMainMenuToMemorize" id="2gi-Lh-zL9"/>
+                        <segue destination="zHO-QA-W38" kind="push" identifier="SequeFromMainMenuToFlash" id="JJP-FU-ROL"/>
+                        <segue destination="ef2-Yd-eTd" kind="push" identifier="SequeFromMainMenuToData" id="lha-69-caN"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="51" y="234"/>
+        </scene>
+        <!--Flashcard View Controller-->
+        <scene sceneID="725-EY-d7K">
+            <objects>
+                <viewController id="zHO-QA-W38" customClass="FlashcardViewController" customModule="CardMemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="WxP-hP-C5W">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="9Jr-Ih-9GQ"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5G3-nD-A3t" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="479" y="-494"/>
+        </scene>
+        <!--Memorize View Controller-->
+        <scene sceneID="ADe-vD-1VJ">
+            <objects>
+                <viewController id="Lns-ub-nvt" customClass="MemorizeViewController" customModule="CardMemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="QTu-At-IRr">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <pickerView contentMode="scaleToFill" id="A2j-QQ-oEm">
+                                <rect key="frame" x="0.0" y="64" width="320" height="162"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="Lns-ub-nvt" id="qdY-Wz-uUf"/>
+                                    <outlet property="delegate" destination="Lns-ub-nvt" id="saa-Iu-7mt"/>
+                                </connections>
+                            </pickerView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="6hS-kk-DJF"/>
+                    <connections>
+                        <outlet property="numberOfCardsPicker" destination="A2j-QQ-oEm" id="z3a-SJ-EgO"/>
+                        <segue destination="m92-VP-gTG" kind="push" identifier="SequeFromMemorizeToTest" id="60l-kc-SiG"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iGT-C4-Jm5" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="521" y="34"/>
+        </scene>
+        <!--Test Memory View Controller-->
+        <scene sceneID="PZb-sv-aVr">
+            <objects>
+                <viewController id="m92-VP-gTG" customClass="TestMemoryViewController" customModule="CardMemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="9N3-tD-O3L">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="uzM-Aw-B2M"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="m0D-1g-9Vh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1010" y="311"/>
+        </scene>
+        <!--Data View Controller-->
+        <scene sceneID="TLI-uK-Iy7">
+            <objects>
+                <viewController id="ef2-Yd-eTd" customClass="DataViewController" customModule="CardMemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="WPV-cA-i6f">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="F0Q-06-YL7"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Vbq-g4-rgk" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="472" y="746"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="k5u-Zo-GUK">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="T3I-nX-62I" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="61B-VR-4K0">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="1RG-Ur-YfH"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aeC-ff-KT4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="59.733333333333334" y="-527.29333333333329"/>
+        </scene>
+    </scenes>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>
