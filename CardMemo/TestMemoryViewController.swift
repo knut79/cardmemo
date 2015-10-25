@@ -654,9 +654,7 @@ class TestMemoryViewController: UIViewController, ADBannerViewDelegate{
         })
 
     }
-    
 
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -673,6 +671,18 @@ class TestMemoryViewController: UIViewController, ADBannerViewDelegate{
     
     func bannerView(banner: ADBannerView!, didFailToReceiveAdWithError error: NSError!) {
         self.bannerView?.hidden = true
+    }
+    
+    override func shouldAutorotate() -> Bool {
+        return false
+    }
+    
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.Portrait
+    }
+    
+    override func preferredInterfaceOrientationForPresentation() -> UIInterfaceOrientation {
+        return UIInterfaceOrientation.Portrait
     }
     
 }

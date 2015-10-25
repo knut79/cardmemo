@@ -50,16 +50,7 @@ class MainMenuViewController: UIViewController , SKProductsRequestDelegate, ADBa
 
 
         datactrl = PlistHandler()
-        
-        
-        //remove before release
-        /*
-        datactrl.adFreeValue = 0
-        datactrl.saveGameData()
-        NSUserDefaults.standardUserDefaults().setBool(false, forKey: "adFree")
-        self.bannerView?.hidden = false
-        */
-        //end remove
+
 
         let marginBetweenButtons:CGFloat = 15
         let buttonWidth = UIScreen.mainScreen().bounds.size.width * 0.6
@@ -88,6 +79,8 @@ class MainMenuViewController: UIViewController , SKProductsRequestDelegate, ADBa
         setRelationsButton.layer.masksToBounds = true
         setRelationsButton.titleLabel?.adjustsFontSizeToFitWidth = true
         
+        requestProductData()
+        
         let adFree = NSUserDefaults.standardUserDefaults().boolForKey("adFree")
         if !adFree
         {
@@ -108,6 +101,7 @@ class MainMenuViewController: UIViewController , SKProductsRequestDelegate, ADBa
 
         if !firstLaunch
         {
+            
             setupAfterPotentialScreenLoad()
         }
         
@@ -240,6 +234,7 @@ class MainMenuViewController: UIViewController , SKProductsRequestDelegate, ADBa
             })
             
             NSUserDefaults.standardUserDefaults().setBool(false, forKey: "firstlaunch")
+            NSUserDefaults.standardUserDefaults().synchronize()
         }
     }
     
@@ -383,7 +378,32 @@ class MainMenuViewController: UIViewController , SKProductsRequestDelegate, ADBa
         }
     }
     
-    func buyProductAction()
+    func buyProductAction() {
+        
+        let numberPrompt = UIAlertController(title: "Remove ads",
+            message: "",
+            preferredStyle: .Alert)
+        
+        
+        numberPrompt.addAction(UIAlertAction(title: "Buy",
+            style: .Default,
+            handler: { (action) -> Void in
+                self.addProductPayment()
+        }))
+        numberPrompt.addAction(UIAlertAction(title: "Restore purchase",
+            style: .Default,
+            handler: { (action) -> Void in
+                
+                self.addProductPayment()
+                
+        }))
+        
+        self.presentViewController(numberPrompt,
+            animated: true,
+            completion: nil)
+    }
+    
+    func addProductPayment()
     {
         let payment = SKPayment(product: product!)
         SKPaymentQueue.defaultQueue().addPayment(payment)
@@ -451,9 +471,7 @@ class MainMenuViewController: UIViewController , SKProductsRequestDelegate, ADBa
             print(error)
         }
     }
-    
 
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -470,6 +488,18 @@ class MainMenuViewController: UIViewController , SKProductsRequestDelegate, ADBa
     
     func bannerView(banner: ADBannerView!, didFailToReceiveAdWithError error: NSError!) {
         self.bannerView?.hidden = true
+    }
+    
+    override func shouldAutorotate() -> Bool {
+        return false
+    }
+    
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.Portrait
+    }
+    
+    override func preferredInterfaceOrientationForPresentation() -> UIInterfaceOrientation {
+        return UIInterfaceOrientation.Portrait
     }
     
 }
