@@ -107,6 +107,7 @@ class MainMenuViewController: UIViewController , SKProductsRequestDelegate, ADBa
         
     }
     
+    
     func memorizeAction()
     {
         self.performSegueWithIdentifier("SequeFromMainMenuToMemorize", sender: nil)
@@ -236,6 +237,9 @@ class MainMenuViewController: UIViewController , SKProductsRequestDelegate, ADBa
             NSUserDefaults.standardUserDefaults().setBool(false, forKey: "firstlaunch")
             NSUserDefaults.standardUserDefaults().synchronize()
         }
+        
+        bannerView?.frame = CGRectZero
+        bannerView!.center = CGPoint(x: bannerView!.center.x, y: self.view.bounds.size.height - bannerView!.frame.size.height / 2)
     }
     
     func loadScreenFinished() {

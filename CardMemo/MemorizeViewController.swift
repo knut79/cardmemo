@@ -210,10 +210,9 @@ class MemorizeViewController:UIViewController, ADBannerViewDelegate{
             self.navigationController!.navigationBar.frame.maxY + (numberOfCardsPicker.frame.height / 2))
         
         cardView.center = CGPointMake((UIScreen.mainScreen().bounds.size.width/2), numberOfCardsPicker.frame.maxY + (cardView.frame.height / 2))
-        /*
-        reShuffleButton.center = CGPoint(x: reShuffleButton.frame.width / 2, y: margin +  cardView.frame.maxY + (reShuffleButton.frame.height / 2))
-        startButton.center = CGPoint(x: reShuffleButton.frame.maxX + (startButton.frame.width / 2), y: margin + cardView.frame.maxY +  (startButton.frame.height / 2))
-*/
+        
+        bannerView?.frame = CGRectZero
+        bannerView!.center = CGPoint(x: bannerView!.center.x, y: self.view.bounds.size.height - bannerView!.frame.size.height / 2)
     }
     
     func reshuffleAction(sender: UIButton) {

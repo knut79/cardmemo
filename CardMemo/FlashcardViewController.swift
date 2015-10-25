@@ -261,7 +261,8 @@ class FlashcardViewController: UIViewController, ADBannerViewDelegate{
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        
+        bannerView?.frame = CGRectZero
+        bannerView!.center = CGPoint(x: bannerView!.center.x, y: self.view.bounds.size.height - bannerView!.frame.size.height / 2)
     }
     
     override func didReceiveMemoryWarning() {
