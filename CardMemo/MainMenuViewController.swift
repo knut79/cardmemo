@@ -11,14 +11,18 @@ import UIKit
 import CoreData
 import StoreKit
 import iAd
+import FBSDKLoginKit
+import FBSDKShareKit
 
-class MainMenuViewController: UIViewController , SKProductsRequestDelegate, ADBannerViewDelegate, HolderViewDelegate{
+class MainMenuViewController: UIViewController , SKProductsRequestDelegate, ADBannerViewDelegate, HolderViewDelegate,FBSDKAppInviteDialogDelegate,FBSDKSharingDelegate, FBSDKLoginButtonDelegate{
     
     
     var memorizeButton: UIButton!
     var practiceButton: UIButton!
     var setRelationsButton: UIButton!
     var adFreeButton:UIButton?
+    var loginButton: FBSDKLoginButton?
+    var inviteFriendsButton:FBSDKSendButton?
     
     let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
     var relationItems = [CardRelation]()
@@ -39,6 +43,8 @@ class MainMenuViewController: UIViewController , SKProductsRequestDelegate, ADBa
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        NSUserDefaults.standardUserDefaults().setBool(true, forKey: "upgrade1")
         
         
         let firstLaunch = NSUserDefaults.standardUserDefaults().boolForKey("firstlaunch")
@@ -79,8 +85,9 @@ class MainMenuViewController: UIViewController , SKProductsRequestDelegate, ADBa
         setRelationsButton.layer.masksToBounds = true
         setRelationsButton.titleLabel?.adjustsFontSizeToFitWidth = true
         
-        requestProductData()
+        //requestProductData()
         
+        /*
         let adFree = NSUserDefaults.standardUserDefaults().boolForKey("adFree")
         if !adFree
         {
@@ -96,8 +103,44 @@ class MainMenuViewController: UIViewController , SKProductsRequestDelegate, ADBa
             adFreeButton?.titleLabel?.numberOfLines = 3
             adFreeButton?.titleLabel?.textAlignment = NSTextAlignment.Center
             adFreeButton?.setTitle("Remove ads\n Unlock ❤️suite\nMore cards", forState: UIControlState.Normal)
+            
+            bannerView = ADBannerView(frame: CGRectMake(0, 0, view.bounds.width, view.bounds.height))
+            
+            self.view.addSubview(bannerView!)
+            self.bannerView?.delegate = self
+            self.bannerView?.hidden = false
         }
+        */
+        bannerView = ADBannerView(frame: CGRectMake(0, 0, view.bounds.width, view.bounds.height))
+        self.view.addSubview(bannerView!)
 
+        if (FBSDKAccessToken.currentAccessToken() != nil)
+        {
+            let content = FBSDKShareLinkContent()
+            content.contentURL = NSURL(string: "https://itunes.apple.com/no/app/i-card-memorize/id1043867425?mt=8")
+            //content.imageURL = NSURL(string: "https://fbcdn-photos-h-a.akamaihd.net/hphotos-ak-xtp1/t39.2081-0/p128x128/12057212_936552496419899_597891191_n.png")
+            content.imageURL = NSURL(string: "https://itunes.apple.com/no/app/i-card-memorize/id1043867425?mt=8")
+            content.contentDescription = "Memorize cards with this iOS app"
+            content.contentTitle = "I-card-memorize"
+            inviteFriendsButton = FBSDKSendButton()
+            if let button = inviteFriendsButton
+            {
+                button.center = CGPointMake(setRelationsButton.center.x, setRelationsButton.center.y + (setRelationsButton.frame.height * 2))
+                button.shareContent = content
+                button.layer.cornerRadius = 5
+                button.layer.masksToBounds = true
+                button.setTitle("Invite friends", forState: UIControlState.Normal)
+            }
+            
+        }
+        else
+        {
+           loginButton = FBSDKLoginButton()
+            loginButton!.center = CGPointMake(setRelationsButton.center.x, setRelationsButton.center.y + (setRelationsButton.frame.height * 2))
+            loginButton!.delegate = self
+            loginButton!.readPermissions = ["public_profile", "user_friends"]
+        }
+        
 
         if !firstLaunch
         {
@@ -105,6 +148,74 @@ class MainMenuViewController: UIViewController , SKProductsRequestDelegate, ADBa
             setupAfterPotentialScreenLoad()
         }
         
+    }
+    
+    func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
+        if ((error) != nil)
+        {
+            // Process error
+            let alert = UIAlertView(title: "Facebook login error", message: "Something went wrong at login. Try again later", delegate: nil, cancelButtonTitle: "OK")
+            alert.show()
+            logOut()
+        }
+        else if result.isCancelled {
+            // Handle cancellations
+            logOut()
+        }
+        else {
+            // If you ask for multiple permissions at once, you
+            // should check if specific permissions missing
+            
+            if result.grantedPermissions.contains("user_friends")
+            {
+                let content = FBSDKShareLinkContent()
+                content.contentURL = NSURL(string: "https://itunes.apple.com/no/app/i-card-memorize/id1043867425?mt=8")
+                content.imageURL = NSURL(string: "https://fbcdn-photos-h-a.akamaihd.net/hphotos-ak-xtp1/t39.2081-0/p128x128/12057212_936552496419899_597891191_n.png")
+                content.contentDescription = "Memorize cards with this iOS app"
+                content.contentTitle = "I-card-memorize"
+            
+                inviteFriendsButton = FBSDKSendButton()
+                if let button = inviteFriendsButton
+                {
+                    button.frame = loginButton.frame
+                    button.shareContent = content
+                    button.layer.cornerRadius = 5
+                    button.layer.masksToBounds = true
+                    button.setTitle("Invite friends", forState: UIControlState.Normal)
+                    self.view.addSubview(button)
+                    loginButton.removeFromSuperview()
+                }
+                
+                
+            }
+            else
+            {
+                let alert = UIAlertView(title: "Friendslist", message: "Friendslist must be premitted to invite friends", delegate: nil, cancelButtonTitle: "OK")
+                alert.show()
+                
+                logOut()
+            }
+
+            
+        }
+    }
+    
+    
+    func logOut()
+    {
+        FBSDKAccessToken.setCurrentAccessToken(nil)
+        FBSDKProfile.setCurrentProfile(nil)
+        
+        let manager = FBSDKLoginManager()
+        manager.logOut()
+        
+        //self.performSegueWithIdentifier("segueFromChallengeToMainMenu", sender: nil)
+    }
+    
+    
+    func loginButtonDidLogOut(loginButton: FBSDKLoginButton!) {
+        
+        self.logOut()
     }
     
     
@@ -130,10 +241,21 @@ class MainMenuViewController: UIViewController , SKProductsRequestDelegate, ADBa
         self.view.addSubview(memorizeButton)
         self.view.addSubview(practiceButton)
         self.view.addSubview(setRelationsButton)
+        if let button = loginButton
+        {
+            self.view.addSubview(button)
+        }
+        if let button = inviteFriendsButton
+        {
+            self.view.addSubview(button)
+        }
         let adFree = NSUserDefaults.standardUserDefaults().boolForKey("adFree")
         if !adFree
         {
-            self.view.addSubview(adFreeButton!)
+            if let button = adFreeButton
+            {
+                self.view.addSubview(button)
+            }
         }
         self.canDisplayBannerAds = true
         bannerView = ADBannerView(frame: CGRectMake(0, UIScreen.mainScreen().bounds.size.height - 44, UIScreen.mainScreen().bounds.size.width, 44))
@@ -142,13 +264,15 @@ class MainMenuViewController: UIViewController , SKProductsRequestDelegate, ADBa
         self.bannerView?.delegate = self
         self.bannerView?.hidden = false
         
-        /*
-        let adFree = NSUserDefaults.standardUserDefaults().boolForKey("adFree")
+
         if !adFree
         {
-            adFreeButton.setTitle("Remove ads\n&\n Unlock ❤️suite", forState: UIControlState.Normal)
+            if let button = adFreeButton
+            {
+                button.setTitle("Remove ads\n&\n Unlock ❤️suite", forState: UIControlState.Normal)
+            }
         }
-        */
+        
         
         fetchRelations()
         if(relationItems.count == 0)
@@ -239,7 +363,7 @@ class MainMenuViewController: UIViewController , SKProductsRequestDelegate, ADBa
         }
         
         bannerView?.frame = CGRectZero
-        bannerView!.center = CGPoint(x: bannerView!.center.x, y: self.view.bounds.size.height - bannerView!.frame.size.height / 2)
+        bannerView?.center = CGPoint(x: bannerView!.center.x, y: self.view.bounds.size.height - bannerView!.frame.size.height / 2)
     }
     
     func loadScreenFinished() {
@@ -409,8 +533,12 @@ class MainMenuViewController: UIViewController , SKProductsRequestDelegate, ADBa
     
     func addProductPayment()
     {
+        //_? test
+        //self.removeAdds()
+        
         let payment = SKPayment(product: product!)
         SKPaymentQueue.defaultQueue().addPayment(payment)
+        
     }
     
     func paymentQueue(queue: SKPaymentQueue!, updatedTransactions transactions: [AnyObject]!) {
@@ -504,6 +632,33 @@ class MainMenuViewController: UIViewController , SKProductsRequestDelegate, ADBa
     
     override func preferredInterfaceOrientationForPresentation() -> UIInterfaceOrientation {
         return UIInterfaceOrientation.Portrait
+    }
+    
+    
+    //test
+    func sharer(sharer: FBSDKSharing!, didCompleteWithResults results: [NSObject : AnyObject]!) {
+        
+        let temp = results
+        for item in temp
+        {
+            print(item)
+        }
+    }
+    
+    func sharer(sharer: FBSDKSharing!, didFailWithError error: NSError!) {
+        print(error)
+    }
+    
+    func sharerDidCancel(sharer: FBSDKSharing!) {
+        
+    }
+    
+    func appInviteDialog(appInviteDialog: FBSDKAppInviteDialog!, didCompleteWithResults results: [NSObject : AnyObject]!) {
+        //TODO
+        let v = "v"
+    }
+    func appInviteDialog(appInviteDialog: FBSDKAppInviteDialog!, didFailWithError error: NSError!) {
+        print(error)
     }
     
 }

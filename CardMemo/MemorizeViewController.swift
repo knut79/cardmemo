@@ -165,29 +165,29 @@ class MemorizeViewController:UIViewController, ADBannerViewDelegate{
 
     }
     
-    var infoMessage:UILabel!
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
-        infoMessage = UILabel(frame: CGRectMake(100, (UIScreen.mainScreen().bounds.size.height / 2) - 50, UIScreen.mainScreen().bounds.size.width - 200, 100))
-        infoMessage.layer.borderColor = UIColor.blackColor().CGColor
+        let infoMessage = UILabel(frame: CGRectMake(100, (UIScreen.mainScreen().bounds.size.height / 2) - 50, UIScreen.mainScreen().bounds.size.width - 200, 100))
+        infoMessage.layer.borderColor = UIColor.blueColor().CGColor
         infoMessage.layer.borderWidth = 1
         infoMessage.layer.cornerRadius = 5
         infoMessage.layer.masksToBounds = true
-        infoMessage.backgroundColor = UIColor.whiteColor()
+        infoMessage.backgroundColor = UIColor.blueColor()
         infoMessage.textAlignment = NSTextAlignment.Center
-        infoMessage.text = "Select number of\ncards to remember"
-        infoMessage.numberOfLines = 2
+        infoMessage.text = "Select number\nof cards\nto remember"
+        infoMessage.textColor = UIColor.whiteColor()
+        infoMessage.numberOfLines = 3
         infoMessage.adjustsFontSizeToFitWidth = true
         infoMessage.alpha = 0
         self.view.addSubview(infoMessage)
         
         UIView.animateWithDuration(1, animations: { () -> Void in
-                self.infoMessage.alpha = 1
+                infoMessage.alpha = 1
             }, completion: { (value: Bool) in
                 UIView.animateWithDuration(1, animations: { () -> Void in
-                    self.infoMessage.center = CGPointMake(UIScreen.mainScreen().bounds.size.width - (self.infoMessage.frame.width / 2),self.numberOfCardsPicker.frame.minY + (self.infoMessage.frame.height / 2))
-                    self.infoMessage.transform = CGAffineTransformScale(self.infoMessage.transform, 0.65, 0.65)
+                    infoMessage.center = CGPointMake(UIScreen.mainScreen().bounds.size.width - (infoMessage.frame.width / 2),self.numberOfCardsPicker.frame.minY + (infoMessage.frame.height / 2))
+                    infoMessage.transform = CGAffineTransformScale(infoMessage.transform, 0.65, 0.65)
                     //infoMessage.alpha = 0
                     }, completion: { (value: Bool) in
                         //infoMessage.removeFromSuperview()
@@ -195,11 +195,15 @@ class MemorizeViewController:UIViewController, ADBannerViewDelegate{
                         pulseAnimation.duration = 0.3
                         pulseAnimation.toValue = NSNumber(float: 0.3)
                         pulseAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-                        pulseAnimation.autoreverses = true;
-                        pulseAnimation.repeatCount = 3
+                        pulseAnimation.autoreverses = true
+                        pulseAnimation.repeatCount = 6
                         pulseAnimation.delegate = self
                         self.numberOfCardsPicker.layer.addAnimation(pulseAnimation, forKey: "numberOfCardsPickerPulse")
-                        
+                        UIView.animateWithDuration((0.3 * 6), animations: { () -> Void in
+                            infoMessage.alpha = 0
+                            }, completion: { (value: Bool) in
+                                infoMessage.removeFromSuperview()
+                        })
                 })
                 
         })
@@ -331,8 +335,8 @@ class MemorizeViewController:UIViewController, ADBannerViewDelegate{
         
 
 
-        let adFree = NSUserDefaults.standardUserDefaults().boolForKey("adFree")
-        if row > 20 && !adFree
+        let upgrade1 = NSUserDefaults.standardUserDefaults().boolForKey("upgrade1")
+        if row > 20 && !upgrade1
         {
             
             let numberPrompt = UIAlertController(title: "Locked😓",
@@ -398,36 +402,7 @@ class MemorizeViewController:UIViewController, ADBannerViewDelegate{
                     }
                     }, completion: { (value: Bool) in
                         
-                        if self.infoMessage != nil
-                        {
-                            self.infoMessage.removeFromSuperview()
-                            self.infoMessage = nil
-                            
-                            /*
-                            self.view.bringSubviewToFront(self.infoMessage)
-                            self.infoMessage.frame = CGRectMake(0, (UIScreen.mainScreen().bounds.size.height / 2) - 100, UIScreen.mainScreen().bounds.size.width , 200)
-                            self.infoMessage.alpha = 0
-                            self.infoMessage.layer.borderWidth = 0
-                            self.infoMessage.backgroundColor = UIColor.clearColor()
-                            self.infoMessage.text = "👇\nSwipe to reveal cards"
-                            self.infoMessage.numberOfLines = 2
-                            self.infoMessage.adjustsFontSizeToFitWidth = true
-                            self.infoMessage.center = self.cardView.center
-                            
-                            UIView.animateWithDuration(1, animations: { () -> Void in
-                                self.infoMessage.alpha = 1
-                                }, completion: { (value: Bool) in
-                                    UIView.animateWithDuration(1, animations: { () -> Void in
-                                    self.infoMessage.frame.offset(dx: (UIScreen.mainScreen().bounds.width / 2) * -1, dy: 0)
-                                    //infoMessage.alpha = 0
-                                    }, completion: { (value: Bool) in
-                                        self.infoMessage.removeFromSuperview()
-                                        self.infoMessage = nil
-                            
-                                    })
-                            
-                            })*/
-                        }
+
                         
                 })
         })

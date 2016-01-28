@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		723DA4BC1C4FEBCE004CAA3B /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 723DA4BB1C4FEBCE004CAA3B /* FBSDKShareKit.framework */; };
+		723DA4BF1C4FEDF0004CAA3B /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 723DA4BE1C4FEDF0004CAA3B /* FBSDKCoreKit.framework */; };
+		723DA4C11C4FEDF9004CAA3B /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 723DA4C01C4FEDF9004CAA3B /* FBSDKLoginKit.framework */; };
 		72524C8A1BB60F2F008FFDEA /* GameData.plist in Resources */ = {isa = PBXBuildFile; fileRef = 72524C891BB60F2F008FFDEA /* GameData.plist */; };
 		72524C8C1BB60FA4008FFDEA /* PlistHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72524C8B1BB60FA4008FFDEA /* PlistHandler.swift */; };
 		728BAEEB1BB375F400BD4DB4 /* HolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728BAEEA1BB375F400BD4DB4 /* HolderView.swift */; };
@@ -111,6 +114,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		723DA4BB1C4FEBCE004CAA3B /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
+		723DA4BD1C4FED19004CAA3B /* CardMemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CardMemo-Bridging-Header.h"; sourceTree = "<group>"; };
+		723DA4BE1C4FEDF0004CAA3B /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		723DA4C01C4FEDF9004CAA3B /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		72524C891BB60F2F008FFDEA /* GameData.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = GameData.plist; sourceTree = "<group>"; };
 		72524C8B1BB60FA4008FFDEA /* PlistHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlistHandler.swift; sourceTree = "<group>"; };
 		728BAEEA1BB375F400BD4DB4 /* HolderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HolderView.swift; sourceTree = "<group>"; };
@@ -214,6 +221,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				723DA4BC1C4FEBCE004CAA3B /* FBSDKShareKit.framework in Frameworks */,
+				723DA4BF1C4FEDF0004CAA3B /* FBSDKCoreKit.framework in Frameworks */,
+				723DA4C11C4FEDF9004CAA3B /* FBSDKLoginKit.framework in Frameworks */,
 				72FF78361BB8C2D100A5B587 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -228,6 +238,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		723DA4BA1C4FEBB8004CAA3B /* Framework */ = {
+			isa = PBXGroup;
+			children = (
+				723DA4C01C4FEDF9004CAA3B /* FBSDKLoginKit.framework */,
+				723DA4BE1C4FEDF0004CAA3B /* FBSDKCoreKit.framework */,
+				723DA4BB1C4FEBCE004CAA3B /* FBSDKShareKit.framework */,
+			);
+			name = Framework;
+			sourceTree = "<group>";
+		};
 		728BAEE81BB375C400BD4DB4 /* LoadScreen */ = {
 			isa = PBXGroup;
 			children = (
@@ -269,6 +289,7 @@
 		72FE6A7A1AC0882600FF792D /* CardMemo */ = {
 			isa = PBXGroup;
 			children = (
+				723DA4BA1C4FEBB8004CAA3B /* Framework */,
 				728BAEE81BB375C400BD4DB4 /* LoadScreen */,
 				72FE6B3F1AC30B0C00FF792D /* enums */,
 				72FE6A841AC0882600FF792D /* Main.storyboard */,
@@ -288,6 +309,7 @@
 				728BAEF21BB40ABE00BD4DB4 /* NumberButton.swift */,
 				728BAEF41BB40E1900BD4DB4 /* PictureButton.swift */,
 				72524C8B1BB60FA4008FFDEA /* PlistHandler.swift */,
+				723DA4BD1C4FED19004CAA3B /* CardMemo-Bridging-Header.h */,
 			);
 			path = CardMemo;
 			sourceTree = "<group>";
@@ -724,11 +746,16 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/CardMemo",
+				);
 				INFOPLIST_FILE = CardMemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.datadullum.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "CardMemo/CardMemo-Bridging-Header.h";
 			};
 			name = Debug;
 		};
@@ -738,11 +765,16 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/CardMemo",
+				);
 				INFOPLIST_FILE = CardMemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.datadullum.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "CardMemo/CardMemo-Bridging-Header.h";
 			};
 			name = Release;
 		};

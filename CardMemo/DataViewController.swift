@@ -103,8 +103,8 @@ class DataViewController: UIViewController, UITableViewDataSource  , UITableView
         //♠️ ♣️ ♥️ ♦️
         let relationItemName = relationItem.name.stringByReplacingOccurrencesOfString("H", withString: "♥️").stringByReplacingOccurrencesOfString("D", withString: "♦️").stringByReplacingOccurrencesOfString("C", withString: "♣️").stringByReplacingOccurrencesOfString("S", withString: "♠️")
         
-        let adFree = NSUserDefaults.standardUserDefaults().boolForKey("adFree")
-        if suite == Int16(suitEnum.hearts.rawValue) && !adFree
+        let upgrade1 = NSUserDefaults.standardUserDefaults().boolForKey("upgrade1")
+        if suite == Int16(suitEnum.hearts.rawValue) && !upgrade1
         {
             cell?.textLabel?.text = relationItemName +
             "     " + "Can´t set value"
@@ -152,10 +152,10 @@ class DataViewController: UIViewController, UITableViewDataSource  , UITableView
         let relationItem = relationItems[indexPath.row]
         
         
-        let adFree = NSUserDefaults.standardUserDefaults().boolForKey("adFree")
+        let upgrade1 = NSUserDefaults.standardUserDefaults().boolForKey("upgrade1")
         
         let suite = relationItem.suite
-        if suite == Int16(suitEnum.hearts.rawValue) && !adFree
+        if suite == Int16(suitEnum.hearts.rawValue) && !upgrade1
         {
             let numberRelationPrompt = UIAlertController(title: "Locked😓",
                 message: "Unlock to set value for ♥️ suite",

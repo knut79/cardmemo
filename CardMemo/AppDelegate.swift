@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import FBSDKCoreKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -19,7 +20,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         NSUserDefaults.standardUserDefaults().setBool(true, forKey: "firstlaunch")
         application.statusBarHidden = true
-        return true
+        
+        return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
     }
 
     func applicationWillResignActive(application: UIApplication) {
@@ -46,6 +48,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.saveContext()
     }
     
+    func application(application: UIApplication,
+        openURL url: NSURL,
+        sourceApplication: String?,
+        annotation: AnyObject) -> Bool {
+            return FBSDKApplicationDelegate.sharedInstance().application(
+                application,
+                openURL: url,
+                sourceApplication: sourceApplication,
+                annotation: annotation)
+    }
     
     func application(application: UIApplication, supportedInterfaceOrientationsForWindow window: UIWindow?) -> UIInterfaceOrientationMask {
         return UIInterfaceOrientationMask.Portrait
